@@ -23,7 +23,7 @@ public class MapGenerator : MonoBehaviour
 	public float persistance;
 	public float lacunarity;
 
-	///The seed is essentiaslly a key to a specific generated world. If one were to have
+	///The seed is essentialy a key to a specific generated world. If one were to have
 	///the same start position, and the same values when is came to octaves, persistance, lacunarity etc, as well as the 'key' that
 	///is the seed, they would get a completely identically generated world. 
 	public int seed;

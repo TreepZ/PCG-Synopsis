@@ -10,8 +10,6 @@ public class MapDisplay : MonoBehaviour
     
     public void DrawTexture(Texture2D texture)
     {
-        
-
         //Here we set the textureRenderes shared-mat to the texture we've just rendered so we can preview our maps without entering gamemode
         textureRenderer.sharedMaterial.mainTexture = texture;
         //Here we set the size of the plane as the same size of the map
