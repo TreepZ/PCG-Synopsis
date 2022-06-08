@@ -36,6 +36,7 @@ public class EndlessTerrain : MonoBehaviour
 
 	void Update()
 	{
+		//Here we check the viewerposition and update the visiblechunks if the viewerpos is larger than the treshhold. Then set the old pos to the new one. 
 		viewerPosition = new Vector2(viewer.position.x, viewer.position.z) / scale;
 
 		if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
@@ -47,7 +48,8 @@ public class EndlessTerrain : MonoBehaviour
 
 	void UpdateVisibleChunks()
 	{
-
+		//In this method we check which chunks are visible and whether it has changed since the last update. We also check if they exist in our terrainChunk dictionary
+		//and if they do not, we add them. If they do, we simply update the terrainchunk
 		for (int i = 0; i < terrainChunksVisibleLastUpdate.Count; i++)
 		{
 			terrainChunksVisibleLastUpdate[i].SetVisible(false);
@@ -119,7 +121,7 @@ public class EndlessTerrain : MonoBehaviour
 
 			mapGenerator.RequestMapData(position, OnMapDataReceived);
 		}
-
+		//Assign the texture we've defined in unity to the colourmap.
 		void OnMapDataReceived(MapData mapData)
 		{
 			this.mapData = mapData;
@@ -130,11 +132,9 @@ public class EndlessTerrain : MonoBehaviour
 
 			UpdateTerrainChunk();
 		}
-
-
-
 		public void UpdateTerrainChunk()
 		{
+			//This is the method that is constantly run, along with UpdateVisibleChunks which is run in our update-method as well as our start method. This means we are constantly checking for chunk-updates
 			if (mapDataReceived)
 			{
 				float viewerDstFromNearestEdge = Mathf.Sqrt(bounds.SqrDistance(viewerPosition));
@@ -210,7 +210,7 @@ public class EndlessTerrain : MonoBehaviour
 
 			updateCallback();
 		}
-
+		//We request the mapdata, and LOD, and as soon as we have it, we run OnMeshDataRecieved ^Above
 		public void RequestMesh(MapData mapData)
 		{
 			hasRequestedMesh = true;

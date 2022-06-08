@@ -60,7 +60,7 @@ public static class Noise
                 amplitude = 1;
                 frequency = 1;
                 float noiseHeight = 0;
-                //Run until our i-value is less than the amount of defined octaves
+                //Run until our i-value is not less than the amount of defined octaves
                 for (int i = 0; i < octaves; i++)
                 {
                     ///To prevent the landmasses changing shape as we increase/decrease the offset, we don't want it to be affected by the scale and frequency.
