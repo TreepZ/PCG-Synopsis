@@ -28,7 +28,7 @@ public class MapGenerator : MonoBehaviour
 	///is the seed, they would get a completely identically generated world. 
 	public int seed;
 	public Vector2 offset;
-
+	//whether or not we'd like to use the falloffmap
 	public bool useFalloff;
 
 	public float meshHeightMultiplier;
@@ -36,12 +36,13 @@ public class MapGenerator : MonoBehaviour
 
 	//Unless we are testing anything, this should always be on.
 	public bool autoUpdate;
-
+	//The defined regions, sand, water etc.
 	public TerrainType[] regions;
 
 	Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
 	Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
-
+	#region Drawmodes
+	//Different drawmodes. 
 	public void DrawMapInEditor()
 	{
 		MapData mapData = GenerateMapData(Vector2.zero);
@@ -64,7 +65,8 @@ public class MapGenerator : MonoBehaviour
 			display.DrawTexture(TextureGenerator.TextureFromHeightMap(FallOffGenerator.GenerateFallOffMap(mapChunkSize)));
         }
 	}
-
+	#endregion
+	#region Threading and Requesting
 	public void RequestMapData(Vector2 centre, Action<MapData> callback)
 	{
 		ThreadStart threadStart = delegate {
@@ -123,9 +125,12 @@ public class MapGenerator : MonoBehaviour
 			}
 		}
 	}
-
+	#endregion
+	///TODO 2 - GenerateMapData
+	#region MapDataGeneration
 	MapData GenerateMapData(Vector2 centre)
 	{
+		//We call the GenerateNoiseMap, and afterwards assign 'heightvalues' or colours to represent the height, to the noisemap
 		float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, centre + offset, normalizeMode);
 
 		Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
@@ -154,11 +159,11 @@ public class MapGenerator : MonoBehaviour
 				}
 			}
 		}
+		//Return MapData
 		return new MapData(noiseMap, colourMap);
 	}
-
-
-	//Called automatically whenever a value in this script is changed
+	#endregion
+	//Called automatically whenever a value in this script is changed - Error handling
 	void OnValidate()
 	{
 		if (lacunarity < 1)
@@ -180,10 +185,7 @@ public class MapGenerator : MonoBehaviour
 			this.callback = callback;
 			this.parameter = parameter;
 		}
-
 	}
-
-
 }
 [System.Serializable]
 public struct TerrainType
@@ -192,7 +194,7 @@ public struct TerrainType
 	public float height;
 	public Color colour;
 }
-
+//MapData is built of a heightmap as well as a colourmap, as these two are linked, one does not work without the other without a significant amount of refacotoring
 public struct MapData
 {
 	public readonly float[,] heightMap;

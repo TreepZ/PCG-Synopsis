@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//This is to fix the texture blurryness
+
 public static class TextureGenerator
 {
-
     public static Texture2D TextureFromColourMap(Color[] colourMap, int width, int height)
     {
         Texture2D texture = new Texture2D(width, height);
+        //This is to fix the texture blurryness
         texture.filterMode = FilterMode.Point;
         //This is to fix the wrapping and repeating of textures, uncomment these if you want to see the blurryness
         texture.wrapMode = TextureWrapMode.Clamp;

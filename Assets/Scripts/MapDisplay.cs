@@ -7,7 +7,7 @@ public class MapDisplay : MonoBehaviour
     public Renderer textureRenderer;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
-
+    ///TODO 2 - Draw
     public void DrawTexture(Texture2D texture)
     {
         //Here we set the textureRenderes shared-mat to the texture we've just rendered so we can preview our maps without entering gamemode
